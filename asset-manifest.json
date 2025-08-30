@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/i-mobile/static/css/main.af3b462d.css",
+    "main.js": "/i-mobile/static/js/main.0b53eee4.js",
+    "static/js/453.96453769.chunk.js": "/i-mobile/static/js/453.96453769.chunk.js",
+    "index.html": "/i-mobile/index.html",
+    "main.af3b462d.css.map": "/i-mobile/static/css/main.af3b462d.css.map",
+    "main.0b53eee4.js.map": "/i-mobile/static/js/main.0b53eee4.js.map",
+    "453.96453769.chunk.js.map": "/i-mobile/static/js/453.96453769.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.af3b462d.css",
+    "static/js/main.0b53eee4.js"
+  ]
+}
