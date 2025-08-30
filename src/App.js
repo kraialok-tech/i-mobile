@@ -1,77 +1,109 @@
-import React, { useState, useEffect } from "react";
-import { openDB } from "idb";
-import "./App.css";
-
-const DB_NAME = "mobile-shop-db";
-const STORE_NAME = "inventory";
-
-async function initDB() {
-  return openDB(DB_NAME, 1, {
-    upgrade(db) {
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
-      }
-    },
-  });
-}
+import React, { useState, useEffect } from 'react';
+import { supabase } from './supabaseClient';
+import './App.css';
 
 function App() {
-  const [itemName, setItemName] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [items, setItems] = useState([]);
+  const [inventory, setInventory] = useState([]);
+  const [newItem, setNewItem] = useState({ name: '', quantity: 0, price: 0 });
 
+  // Fetch inventory on load
   useEffect(() => {
-    (async () => {
-      const db = await initDB();
-      const allItems = await db.getAll(STORE_NAME);
-      setItems(allItems);
-    })();
+    fetchInventory();
   }, []);
 
-  const addItem = async () => {
-    if (!itemName || !quantity) return;
-    const db = await initDB();
-    const newItem = { name: itemName, quantity: parseInt(quantity), date: new Date().toISOString() };
-    const id = await db.add(STORE_NAME, newItem);
-    setItems([...items, { ...newItem, id }]);
-    setItemName("");
-    setQuantity("");
-  };
+  async function fetchInventory() {
+    const { data, error } = await supabase.from('inventory').select('*');
+    if (error) {
+      console.error('Error fetching inventory:', error);
+    } else {
+      setInventory(data);
+    }
+  }
 
-  const deleteItem = async (id) => {
-    const db = await initDB();
-    await db.delete(STORE_NAME, id);
-    setItems(items.filter((item) => item.id !== id));
-  };
+  async function addItem() {
+    if (!newItem.name || newItem.quantity <= 0) {
+      alert('Enter valid item details');
+      return;
+    }
+
+    const { data, error } = await supabase.from('inventory').insert([newItem]).select();
+    if (error) {
+      console.error('Error adding item:', error);
+    } else {
+      setInventory([...inventory, ...data]);
+      setNewItem({ name: '', quantity: 0, price: 0 });
+       
+       alert('Data inserted');
+    }
+  }
+
+  async function updateQuantity(id, change) {
+    const item = inventory.find(i => i.id === id);
+    if (!item) return;
+
+    const newQty = item.quantity + change;
+    if (newQty < 0) return;
+
+    const { data, error } = await supabase
+      .from('inventory')
+      .update({ quantity: newQty })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating quantity:', error);
+    } else {
+      setInventory(inventory.map(i => i.id === id ? { ...i, quantity: newQty } : i));
+    }
+  }
 
   return (
-    <div className="app-container">
-      <h1>📱 Mobile Shop Inventory</h1>
-      <div className="input-section">
-        <input
+    <div className="app">
+      <h1>i-Mobile : Inventory List</h1>
+
+      <div className="add-item">
+        <input 
           type="text"
           placeholder="Item name"
-          value={itemName}
-          onChange={(e) => setItemName(e.target.value)}
+          value={newItem.name}
+          onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
         />
-        <input
+        <input 
           type="number"
           placeholder="Quantity"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
+          value={newItem.quantity}
+          onChange={(e) => setNewItem({ ...newItem, quantity: parseInt(e.target.value) || 0 })}
+        />
+        <input 
+          type="number"
+          placeholder="Price"
+          value={newItem.price}
+          onChange={(e) => setNewItem({ ...newItem, price: parseFloat(e.target.value) || 0 })}
         />
         <button onClick={addItem}>Add Item</button>
       </div>
 
-      <h2>Inventory List</h2>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            {item.name} - Qty: {item.quantity} <small>({new Date(item.date).toLocaleString()})</small>
-            <button className="delete-btn" onClick={() => deleteItem(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Buy</th>
+            <th>Sell</th>
+          </tr>
+        </thead>
+        <tbody>
+          {inventory.map(item => (
+            <tr key={item.id}>
+              <td>{item.name}</td>
+              <td>{item.quantity}</td>
+              <td>{item.price}</td>
+              <td><button onClick={() => updateQuantity(item.id, 1)}>+</button></td>
+              <td><button onClick={() => updateQuantity(item.id, -1)}>-</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

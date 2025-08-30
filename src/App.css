@@ -1,54 +1,36 @@
-.app-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
+.app {
   text-align: center;
+  padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-h1 {
-  color: #222;
+.add-item input {
+  margin: 5px;
+  padding: 8px;
 }
 
-.input-section {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.input-section input {
-  flex: 1;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.input-section button {
-  padding: 10px 20px;
-  background-color: #0077ff;
-  border: none;
-  color: white;
+.add-item button {
+  padding: 8px 16px;
+  margin-left: 5px;
   cursor: pointer;
-  font-size: 16px;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
 }
 
-li {
-  display: flex;
-  justify-content: space-between;
-  background: #f4f4f4;
+table, th, td {
+  border: 1px solid #aaa;
+}
+
+th, td {
   padding: 10px;
-  margin: 5px 0;
-  border-radius: 6px;
+  text-align: center;
 }
 
-.delete-btn {
-  background: #ff4444;
-  border: none;
-  color: white;
-  padding: 5px 10px;
+button {
+  padding: 6px 12px;
   cursor: pointer;
 }
