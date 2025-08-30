@@ -33,7 +33,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>📱 Mobile Shop Manager</h1>
+      <h1>📱 i-Mobile : World in Hand</h1>
 
       {/* Inventory Section */}
       <div className="section">
