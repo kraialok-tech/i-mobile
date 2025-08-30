@@ -2,158 +2,129 @@ import React, { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [view, setView] = useState("inventory"); // inventory | buy | sell
-  const [inventory, setInventory] = useState([
-    { id: 1, name: "iPhone 15", qty: 10 },
-    { id: 2, name: "Samsung S24", qty: 7 },
-  ]);
+  const [inventory, setInventory] = useState([]);
   const [buyOrders, setBuyOrders] = useState([]);
   const [sellOrders, setSellOrders] = useState([]);
 
-  const [newItem, setNewItem] = useState("");
-  const [newQty, setNewQty] = useState("");
+  const [newItem, setNewItem] = useState({ name: "", qty: "", price: "" });
+  const [newBuyOrder, setNewBuyOrder] = useState({ name: "", qty: "" });
+  const [newSellOrder, setNewSellOrder] = useState({ name: "", qty: "" });
 
-  const handleAddInventory = () => {
-    if (!newItem || !newQty) return;
-    const nextId = inventory.length ? inventory[inventory.length - 1].id + 1 : 1;
-    setInventory([...inventory, { id: nextId, name: newItem, qty: parseInt(newQty) }]);
-    setNewItem("");
-    setNewQty("");
+  // Add item to inventory
+  const addItem = () => {
+    if (!newItem.name || !newItem.qty || !newItem.price) return;
+    setInventory([...inventory, { ...newItem, qty: parseInt(newItem.qty), price: parseFloat(newItem.price) }]);
+    setNewItem({ name: "", qty: "", price: "" });
   };
 
-  const handleBuy = (id, qty) => {
-    const item = inventory.find((i) => i.id === id);
-    if (!item || !qty) return;
-    setInventory(
-      inventory.map((i) =>
-        i.id === id ? { ...i, qty: i.qty + parseInt(qty) } : i
-      )
-    );
-    setBuyOrders([...buyOrders, { item: item.name, qty: parseInt(qty), date: new Date().toLocaleString() }]);
+  // Add Buy Order
+  const addBuyOrder = () => {
+    if (!newBuyOrder.name || !newBuyOrder.qty) return;
+    setBuyOrders([...buyOrders, { ...newBuyOrder, qty: parseInt(newBuyOrder.qty) }]);
+    setNewBuyOrder({ name: "", qty: "" });
   };
 
-  const handleSell = (id, qty) => {
-    const item = inventory.find((i) => i.id === id);
-    if (!item || !qty || qty > item.qty) return;
-    setInventory(
-      inventory.map((i) =>
-        i.id === id ? { ...i, qty: i.qty - parseInt(qty) } : i
-      )
-    );
-    setSellOrders([...sellOrders, { item: item.name, qty: parseInt(qty), date: new Date().toLocaleString() }]);
+  // Add Sell Order
+  const addSellOrder = () => {
+    if (!newSellOrder.name || !newSellOrder.qty) return;
+    setSellOrders([...sellOrders, { ...newSellOrder, qty: parseInt(newSellOrder.qty) }]);
+    setNewSellOrder({ name: "", qty: "" });
   };
 
   return (
     <div className="app">
-      <h1>i-Mobile Shop Management</h1>
-      <div className="navbar">
-        <button onClick={() => setView("inventory")}>Inventory</button>
-        <button onClick={() => setView("buy")}>Buy Orders</button>
-        <button onClick={() => setView("sell")}>Sell Orders</button>
+      <h1>📱 Mobile Shop Manager</h1>
+
+      {/* Inventory Section */}
+      <div className="section">
+        <h2>Inventory</h2>
+        <input
+          type="text"
+          placeholder="Item Name"
+          value={newItem.name}
+          onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Quantity"
+          value={newItem.qty}
+          onChange={(e) => setNewItem({ ...newItem, qty: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Price"
+          value={newItem.price}
+          onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
+        />
+        <button onClick={addItem}>Add to Inventory</button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {inventory.map((item, index) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.qty}</td>
+                <td>₹{item.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {view === "inventory" && (
-        <div className="section">
-          <h2>Inventory List</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {inventory.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.qty}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* Buy Orders Section */}
+      <div className="section">
+        <h2>Buy Orders</h2>
+        <input
+          type="text"
+          placeholder="Item Name"
+          value={newBuyOrder.name}
+          onChange={(e) => setNewBuyOrder({ ...newBuyOrder, name: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Quantity"
+          value={newBuyOrder.qty}
+          onChange={(e) => setNewBuyOrder({ ...newBuyOrder, qty: e.target.value })}
+        />
+        <button onClick={addBuyOrder}>Add Buy Order</button>
 
-          <h3>Add New Item</h3>
-          <input
-            type="text"
-            placeholder="Model Name"
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Quantity"
-            value={newQty}
-            onChange={(e) => setNewQty(e.target.value)}
-          />
-          <button onClick={handleAddInventory}>Add</button>
-        </div>
-      )}
+        <ul>
+          {buyOrders.map((order, index) => (
+            <li key={index}>{order.name} - {order.qty} units</li>
+          ))}
+        </ul>
+      </div>
 
-      {view === "buy" && (
-        <div className="section">
-          <h2>Buy Orders</h2>
-          <div className="form-row">
-            <select id="buyItem">
-              {inventory.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-            <input type="number" id="buyQty" placeholder="Quantity" />
-            <button
-              onClick={() =>
-                handleBuy(
-                  parseInt(document.getElementById("buyItem").value),
-                  parseInt(document.getElementById("buyQty").value)
-                )
-              }
-            >
-              Add Buy Order
-            </button>
-          </div>
-          <ul>
-            {buyOrders.map((order, idx) => (
-              <li key={idx}>
-                {order.date} - Bought {order.qty} of {order.item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/* Sell Orders Section */}
+      <div className="section">
+        <h2>Sell Orders</h2>
+        <input
+          type="text"
+          placeholder="Item Name"
+          value={newSellOrder.name}
+          onChange={(e) => setNewSellOrder({ ...newSellOrder, name: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Quantity"
+          value={newSellOrder.qty}
+          onChange={(e) => setNewSellOrder({ ...newSellOrder, qty: e.target.value })}
+        />
+        <button onClick={addSellOrder}>Add Sell Order</button>
 
-      {view === "sell" && (
-        <div className="section">
-          <h2>Sell Orders</h2>
-          <div className="form-row">
-            <select id="sellItem">
-              {inventory.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-            <input type="number" id="sellQty" placeholder="Quantity" />
-            <button
-              onClick={() =>
-                handleSell(
-                  parseInt(document.getElementById("sellItem").value),
-                  parseInt(document.getElementById("sellQty").value)
-                )
-              }
-            >
-              Add Sell Order
-            </button>
-          </div>
-          <ul>
-            {sellOrders.map((order, idx) => (
-              <li key={idx}>
-                {order.date} - Sold {order.qty} of {order.item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        <ul>
+          {sellOrders.map((order, index) => (
+            <li key={index}>{order.name} - {order.qty} units</li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
