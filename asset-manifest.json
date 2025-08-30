@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/i-mobile/static/css/main.22401fbe.css",
-    "main.js": "/i-mobile/static/js/main.2f5a670f.js",
+    "main.css": "/i-mobile/static/css/main.aea57d72.css",
+    "main.js": "/i-mobile/static/js/main.38dcb624.js",
     "static/js/453.96453769.chunk.js": "/i-mobile/static/js/453.96453769.chunk.js",
     "index.html": "/i-mobile/index.html",
-    "main.22401fbe.css.map": "/i-mobile/static/css/main.22401fbe.css.map",
-    "main.2f5a670f.js.map": "/i-mobile/static/js/main.2f5a670f.js.map",
+    "main.aea57d72.css.map": "/i-mobile/static/css/main.aea57d72.css.map",
+    "main.38dcb624.js.map": "/i-mobile/static/js/main.38dcb624.js.map",
     "453.96453769.chunk.js.map": "/i-mobile/static/js/453.96453769.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.22401fbe.css",
-    "static/js/main.2f5a670f.js"
+    "static/css/main.aea57d72.css",
+    "static/js/main.38dcb624.js"
   ]
 }
