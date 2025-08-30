@@ -41,7 +41,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Mobile Shop Inventory</h1>
+      <h1>i-Mobile : Inventory List</h1>
       
       <div className="form">
         <input
