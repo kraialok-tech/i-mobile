@@ -1,93 +1,77 @@
 import React, { useState, useEffect } from "react";
+import { openDB } from "idb";
 import "./App.css";
 
-function App() {
-  // Load from localStorage on first render
-  const [inventory, setInventory] = useState(() => {
-    const savedInventory = localStorage.getItem("inventory");
-    return savedInventory ? JSON.parse(savedInventory) : [];
+const DB_NAME = "mobile-shop-db";
+const STORE_NAME = "inventory";
+
+async function initDB() {
+  return openDB(DB_NAME, 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: "id", autoIncrement: true });
+      }
+    },
   });
+}
 
+function App() {
   const [itemName, setItemName] = useState("");
-  const [itemQty, setItemQty] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [items, setItems] = useState([]);
 
-  // Save to localStorage whenever inventory changes
   useEffect(() => {
-    localStorage.setItem("inventory", JSON.stringify(inventory));
-  }, [inventory]);
+    (async () => {
+      const db = await initDB();
+      const allItems = await db.getAll(STORE_NAME);
+      setItems(allItems);
+    })();
+  }, []);
 
-  const addItem = () => {
-    if (!itemName || !itemQty || !itemPrice) {
-      alert("Please fill all fields!");
-      return;
-    }
-    const newItem = {
-      id: Date.now(),
-      name: itemName,
-      quantity: parseInt(itemQty),
-      price: parseFloat(itemPrice),
-    };
-    setInventory([...inventory, newItem]);
+  const addItem = async () => {
+    if (!itemName || !quantity) return;
+    const db = await initDB();
+    const newItem = { name: itemName, quantity: parseInt(quantity), date: new Date().toISOString() };
+    const id = await db.add(STORE_NAME, newItem);
+    setItems([...items, { ...newItem, id }]);
     setItemName("");
-    setItemQty("");
-    setItemPrice("");
+    setQuantity("");
   };
 
-  const deleteItem = (id) => {
-    const updated = inventory.filter((item) => item.id !== id);
-    setInventory(updated);
+  const deleteItem = async (id) => {
+    const db = await initDB();
+    await db.delete(STORE_NAME, id);
+    setItems(items.filter((item) => item.id !== id));
   };
 
   return (
-    <div className="app">
-      <h1>i-Mobile : Inventory List</h1>
-      
-      <div className="form">
+    <div className="app-container">
+      <h1>📱 Mobile Shop Inventory</h1>
+      <div className="input-section">
         <input
           type="text"
-          placeholder="Item Name"
+          placeholder="Item name"
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
         />
         <input
           type="number"
           placeholder="Quantity"
-          value={itemQty}
-          onChange={(e) => setItemQty(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Price"
-          value={itemPrice}
-          onChange={(e) => setItemPrice(e.target.value)}
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
         />
         <button onClick={addItem}>Add Item</button>
       </div>
 
       <h2>Inventory List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Qty</th>
-            <th>Price (₹)</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {inventory.map((item) => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{item.quantity}</td>
-              <td>{item.price}</td>
-              <td>
-                <button className="delete" onClick={() => deleteItem(item.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            {item.name} - Qty: {item.quantity} <small>({new Date(item.date).toLocaleString()})</small>
+            <button className="delete-btn" onClick={() => deleteItem(item.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

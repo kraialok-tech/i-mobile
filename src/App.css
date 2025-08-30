@@ -1,45 +1,54 @@
-.app {
-  font-family: Arial, sans-serif;
+.app-container {
+  max-width: 600px;
+  margin: auto;
   padding: 20px;
   text-align: center;
+  font-family: Arial, sans-serif;
 }
 
-.form {
+h1 {
+  color: #222;
+}
+
+.input-section {
+  display: flex;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-input {
-  margin: 5px;
-  padding: 8px;
-  width: 150px;
+.input-section input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
 }
 
-button {
-  padding: 8px 12px;
-  margin-left: 5px;
-  cursor: pointer;
-  background-color: #007bff;
+.input-section button {
+  padding: 10px 20px;
+  background-color: #0077ff;
   border: none;
   color: white;
-  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-button.delete {
-  background-color: red;
+ul {
+  list-style: none;
+  padding: 0;
 }
 
-table {
-  margin: 0 auto;
-  border-collapse: collapse;
-  width: 80%;
-}
-
-th, td {
-  border: 1px solid #ddd;
+li {
+  display: flex;
+  justify-content: space-between;
+  background: #f4f4f4;
   padding: 10px;
+  margin: 5px 0;
+  border-radius: 6px;
 }
 
-th {
-  background-color: #007bff;
+.delete-btn {
+  background: #ff4444;
+  border: none;
   color: white;
+  padding: 5px 10px;
+  cursor: pointer;
 }
