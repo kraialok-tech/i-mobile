@@ -1,0 +1,36 @@
+.app {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.add-item input {
+  margin: 5px;
+  padding: 8px;
+}
+
+.add-item button {
+  padding: 8px 16px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+table, th, td {
+  border: 1px solid #aaa;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+button {
+  padding: 6px 12px;
+  cursor: pointer;
+}
