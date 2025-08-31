@@ -6,6 +6,8 @@ import Inventory from './components/Inventory';
 import Buy from './components/Buy';
 import Sell from './components/Sell';
 import Contact from './components/Contact';
+import Shopping from './components/Shopping';
+import Billing from './components/Billing';
 
 function App() {
 return (
@@ -16,7 +18,11 @@ return (
 <Route path="/inventory" element={<Inventory />} />
 <Route path="/buy" element={<Buy />} />
 <Route path="/sell" element={<Sell />} />
+<Route path="/billing" element={<Billing />} />
 <Route path="/contact" element={<Contact />} />
+
+<Route path="/shopping" element={<Shopping />} />
+
 </Routes>
 </Router>
 );

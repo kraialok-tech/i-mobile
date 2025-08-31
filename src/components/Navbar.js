@@ -10,6 +10,7 @@ return (
 <Link className="nav-link" to="/inventory">Inventory</Link>
 <Link className="nav-link" to="/buy">Buy</Link>
 <Link className="nav-link" to="/sell">Sell</Link>
+<Link className="nav-link" to="/billing">Billing</Link>
 <Link className="nav-link" to="/contact">Contact</Link>
 </div>
 </div>

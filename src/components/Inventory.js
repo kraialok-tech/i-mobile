@@ -83,9 +83,25 @@ function Inventory() {
     }
   }
 
+  
+function sortByItem(){
+  const itemSorted = [...inventory].sort((a,b) => a.name.localeCompare(b.name));
+  setInventory(itemSorted);
+}
+
+function sortByQuantity(){
+  const quantitySorted = [...inventory].sort((a,b) => a.quantity -b.quantity);
+  setInventory(quantitySorted);
+}
+
+function sortByPrice(){
+  const priceSorted = [...inventory].sort((a,b) => a.price -b.price);
+  setInventory(priceSorted);
+}
+
   return (
     <div className="container mt-3">
-      <h1>i-Mobile : Inventory List</h1>
+      <h1>Inventory List</h1>
 
       <div className="add-item">
         <input 
@@ -112,9 +128,12 @@ function Inventory() {
       <table>
         <thead>
           <tr>
-            <th>Item</th>
-            <th>Qty</th>
-            <th>Price</th>
+            <th  style={{ color: '#007bff', textDecoration: 'underline', cursor: 'pointer' }} 
+                 onClick={sortByItem} >Item </th>
+            <th  style={{ color: '#007bff', textDecoration: 'underline', cursor: 'pointer' }} 
+                 onClick={sortByQuantity} >Qty </th>
+            <th  style={{ color: '#007bff', textDecoration: 'underline', cursor: 'pointer' }} 
+                 onClick={sortByPrice} >Price </th>
             <th>Add Qty</th>
             <th>Remove Qty</th>
             <th>Delete item</th>

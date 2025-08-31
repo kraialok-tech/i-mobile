@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
  function Home() {
   const featuredMobiles = [
@@ -30,13 +31,15 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
         <div style={{ backgroundColor: 'rgba(24, 36, 212, 0.6)', padding: '60px 20px' }}>
           <h1 className="display-4 fw-bold">Welcome to i-mobile </h1>
           <p className="lead">Your one-stop destination for the latest smartphones</p>
-          <Button variant="warning" size="lg" className="mt-3">Shop Now</Button>
+          <Link to="/shopping">
+             <Button variant="warning" size="lg" className="mt-3">Shop Now</Button>
+          </Link>
         </div>
       </div>
 
       {/* Featured Mobiles */}
       <Container className="my-5">
-        <h2 className="text-center mb-4">Featured Mobiles</h2>
+        <h2 className="text-center mb-4">Featured Mobiles & Accessories</h2>
         <Row>
           {featuredMobiles.map(mobile => (
             <Col md={4} sm={6} xs={12} className="mb-4" key={mobile.id}>
@@ -45,7 +48,10 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
                 <div className="card-body text-center">
                   <h5 className="card-title">{mobile.name}</h5>
                   <p className="card-text">{mobile.price}</p>
-                  <Button variant="primary">Buy Now</Button>
+                  <Link to="/shopping">
+                    <Button variant="primary">Buy Now</Button>
+                  </Link>
+                  
                 </div>
               </div>
             </Col>
@@ -56,7 +62,10 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
       {/* Call to Action */}
       <div className="bg-primary text-white text-center py-5">
         <h3>Looking for best deals on mobiles?</h3>
-        <Button variant="light" size="lg" className="mt-3">Contact Us</Button>
+        <Link to="/contact">
+           <Button variant="light" size="lg" className="mt-3">Contact Us</Button>
+        </Link>
+       
       </div>
 
       {/* Footer */}
