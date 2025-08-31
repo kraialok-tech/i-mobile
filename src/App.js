@@ -11,10 +11,10 @@ return (
 <Router>
 <Navbar />
 <Routes>
-<Route path="/i-mobile/" element={<Home />} />
-<Route path="/i-mobile/inventory/" element={<Inventory />} />
-<Route path="/i-mobile/buy/" element={<Buy />} />
-<Route path="/i-mobile/sell/" element={<Sell />} />
+<Route path="/" element={<Home />} />
+<Route path="/inventory" element={<Inventory />} />
+<Route path="/buy" element={<Buy />} />
+<Route path="/sell" element={<Sell />} />
 </Routes>
 </Router>
 );
