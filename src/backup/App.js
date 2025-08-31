@@ -63,7 +63,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>i-Mobile : Inventory List</h1>
+      <h1> 📱 i-Mobile : Inventory List</h1>
 
       <div className="add-item">
         <input 
