@@ -57,7 +57,29 @@ function Inventory() {
     if (error) {
       console.error('Error updating quantity:', error);
     } else {
+        console.error(data);
       setInventory(inventory.map(i => i.id === id ? { ...i, quantity: newQty } : i));
+    }
+  }
+
+  async function deleteItem(id) {
+    const item = inventory.find(i => i.id === id);
+    if (!item){ 
+      alert ('data not found')
+      return;
+    }
+
+     const { data, error } = await supabase
+      .from('inventory')
+      .delete('*')
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating quantity:', error);
+    } else {
+      console.error(data);
+       const updatedInventory = inventory.filter(item => item.id !== id);
+       setInventory(updatedInventory);
     }
   }
 
@@ -93,8 +115,9 @@ function Inventory() {
             <th>Item</th>
             <th>Qty</th>
             <th>Price</th>
-            <th>Buy</th>
-            <th>Sell</th>
+            <th>Add Qty</th>
+            <th>Remove Qty</th>
+            <th>Delete item</th>
           </tr>
         </thead>
         <tbody>
@@ -105,6 +128,7 @@ function Inventory() {
               <td>{item.price}</td>
               <td><button onClick={() => updateQuantity(item.id, 1)}>+</button></td>
               <td><button onClick={() => updateQuantity(item.id, -1)}>-</button></td>
+              <td><button onClick={() => deleteItem(item.id)}>$</button></td>
             </tr>
           ))}
         </tbody>
