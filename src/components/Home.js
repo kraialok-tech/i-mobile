@@ -26,9 +26,9 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
   return (
     <div>
       {/* Hero Section */}
-      <div className="bg-dark text-white text-center py-5" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1510557880182-3d4d3c0e8eb8?w=1600)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div style={{ backgroundColor: 'rgba(0,0,0,0.6)', padding: '60px 20px' }}>
-          <h1 className="display-4 fw-bold">Welcome to i-Mobile Shop</h1>
+      <div className="bg-light text-white text-center py-5" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1510557880182-3d4d3c0e8eb8?w=1600)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div style={{ backgroundColor: 'rgba(24, 36, 212, 0.6)', padding: '60px 20px' }}>
+          <h1 className="display-4 fw-bold">Welcome to i-mobile </h1>
           <p className="lead">Your one-stop destination for the latest smartphones</p>
           <Button variant="warning" size="lg" className="mt-3">Shop Now</Button>
         </div>

@@ -5,6 +5,7 @@ import Home  from './components/Home';
 import Inventory from './components/Inventory';
 import Buy from './components/Buy';
 import Sell from './components/Sell';
+import Contact from './components/Contact';
 
 function App() {
 return (
@@ -15,6 +16,7 @@ return (
 <Route path="/inventory" element={<Inventory />} />
 <Route path="/buy" element={<Buy />} />
 <Route path="/sell" element={<Sell />} />
+<Route path="/contact" element={<Contact />} />
 </Routes>
 </Router>
 );
